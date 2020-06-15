@@ -1,17 +1,39 @@
 
-// Main Hub Application
+//Monitor the system for events 
 const events = require('./events.js');
+require('./driver.js');
+const vendor = require('./vendor.js');
 
-//Manages the state of every package (ready for pickup, in transit, delivere)
+// Wait 1 second
+// Log “DRIVER: picked up [ORDER_ID]” to the console.
+// Emit an ‘in-transit’ event with the payload you received
 
-events.on('pickup', (payload) => logIt( 'pickup', payload));
-events.on('in-transit',(payload) => logIt('in-transit', payload));
-events.on('delivered',(payload) => logIt('delivered', payload));
+// Wait 3 seconds
+// Log “delivered” to the console
+// Emit a ‘delivered’ event with the same payload
 
-//Logs every event to the console with a timestamp and the event payload
-function logIt(event, payload){
-  const time = new Date();
-  console.log(`EVENT { Event: ${event}, 
-  Time: ${time} `,
-  'payload:',payload);
+function readyForPickup(){
+  setTimeout(() => {
+    let fakeOrder = vendor();
+    
+    setTimeout(() => {
+      events.emit('pickup',fakeOrder); 
+      console.log(`DRIVER: picked up ${fakeOrder.orderID}`);
+      
+    }, 1000);
+    
+    setTimeout(() => {
+      events.emit('in-transit', fakeOrder );
+      console.log(`DRIVER: delivered up ${fakeOrder.orderID}`);
+      console.log(`VENDOR: Thank you for delivering ${fakeOrder.orderID}`); 
+      events.emit('delivered',fakeOrder); 
+      console.log('Thank you');
+    }, 3000),
+    
+    
+    readyForPickup();
+  }, 5000); 
 }
+readyForPickup();
+
+ 

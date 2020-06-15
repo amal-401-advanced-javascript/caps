@@ -1,7 +1,7 @@
 'use strict';
 require('dotenv').config();
 require('./events.js');
-require('./caps.js');
+require('../caps/caps.js');
 //Declare your store name
 const myStoreName = process.env.MY_STORE_NAME;
 const faker = require('faker');
@@ -16,9 +16,9 @@ const faker = require('faker');
 module.exports = function generateFake(){
   let fakeOrder =
    { store: myStoreName,
-     orderId : faker.random.number(),
+     orderID : faker.random.number(),
      customer : faker.name.findName(),
-     address :  faker.address.country() };
+     address :  `${faker.address.city()}, ${faker.address.country()}`};
   return fakeOrder;
 };
 

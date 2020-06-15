@@ -2,7 +2,7 @@
   "name": "caps",
   "version": "1.0.0",
   "description": "",
-  "main": "driver.js",
+  "main": "caps.js",
   "scripts": {
     "test": "jest --coverage --verbose",
     "lint": "eslint '**/*.js'",
