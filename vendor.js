@@ -1,10 +1,11 @@
 'use strict';
 require('dotenv').config();
-const events = require('./events.js');
-// require('./caps.js');
+require('./events.js');
+require('./caps.js');
 //Declare your store name
 const myStoreName = process.env.MY_STORE_NAME;
 const faker = require('faker');
+
 
 
 // Create a fake order, as an object:
@@ -12,13 +13,14 @@ const faker = require('faker');
 // Emit a ‘pickup’ event and attach the fake order as payload
 
 
-setTimeout(() => {
-  let storeName = myStoreName;
-  let orderId = faker.random.number();
-  let customerName = faker.name.findName();
-  let address = faker.address.city();
-  events.emit('pickup',{storeName,orderId,customerName,address});}, 5000);
-
+module.exports = function generateFake(){
+  let fakeOrder =
+   { store: myStoreName,
+     orderId : faker.random.number(),
+     customer : faker.name.findName(),
+     address :  faker.address.country() };
+  return fakeOrder;
+};
 
 //   Whenever the ‘delivered’ event occurs
 //   Log “thank you” to the console

@@ -2,7 +2,7 @@
   "name": "caps",
   "version": "1.0.0",
   "description": "",
-  "main": "events.js",
+  "main": "driver.js",
   "scripts": {
     "test": "jest --coverage --verbose",
     "lint": "eslint '**/*.js'",
@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/amal-401-advanced-javascript/caps#readme",
   "devDependencies": {
-    "eslint": "^7.2.0"
+    "eslint": "^7.2.0",
+    "jest": "^26.0.1"
   },
   "dependencies": {
     "dotenv": "^8.2.0",

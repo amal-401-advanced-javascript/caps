@@ -1,8 +1,8 @@
-'use strict';
+
 //Monitor the system for events 
 const events = require('./events.js');
-// require('./caps.js');
-// require('./vendor.js');
+require('./caps.js');
+const vendor = require('./vendor.js');
 
 // Wait 1 second
 // Log “DRIVER: picked up [ORDER_ID]” to the console.
@@ -12,17 +12,28 @@ const events = require('./events.js');
 // Log “delivered” to the console
 // Emit a ‘delivered’ event with the same payload
 
+function readyForPickup(){
+  setTimeout(() => {
+    let fakeOrder = vendor();
+    
+    setTimeout(() => {
+      events.emit('pickup',fakeOrder); 
+      console.log(`DRIVER: picked up ${fakeOrder.orderId}`);
+      
+    }, 1000);
+    
+    setTimeout(() => {
+      events.emit('in-transit', fakeOrder );
+      console.log(`DRIVER: delivered up ${fakeOrder.orderId}`);
+      console.log(`VENDOR: Thank you for delivering ${fakeOrder.orderId}`); 
+      events.emit('delivered',fakeOrder); 
+      console.log('Thank you');
+    }, 3000),
+    
+    
+    readyForPickup();
+  }, 5000); 
+}
+readyForPickup();
 
-
-
-setTimeout(() => {
-  console.log(`DRIVER: picked up`, payload.orderId);
-  events.emit('in-transit',payload);   
-}, 1000);
-
-
-
-setTimeout(() => {
-  console.log(`delivered`,payload);
-  events.emit('delivered',payload);  
-}, 3000); 
+ 
