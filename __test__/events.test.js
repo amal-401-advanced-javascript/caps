@@ -1,30 +1,31 @@
 'use strict';
 const events = require('../events');
 require('../driver');
-
+const myStoreName = process.env.MY_STORE_NAME;
+const faker = require('faker');
 jest.spyOn(global.console, 'log');
 
-let payload = {
-  store: 'Amal',
-  orderID: '16023',
-  customer: 'Bailey Simonis MD',
-  address: 'Portugal',
+let fakeOrder = {
+  store: myStoreName,
+  orderId : faker.random.number(),
+  customer : faker.name.findName(),
+  address :  faker.address.country(), 
 };
 
-describe('Events Handlers', () => {
+describe('Events', () => {
 
   it('pickup()', () => {
-    events.emit('pickup', payload);
+    events.emit('pickup', fakeOrder);
     expect(console.log).toHaveBeenCalled();
   });
 
-  it('in-ransit()', () => {
-    events.emit('in-transit', payload);
+  it('in-transit()', () => {
+    events.emit('in-transit', fakeOrder);
     expect(console.log).toHaveBeenCalled();
   });
 
-  it('pickup()', () => {
-    events.emit('delivered', payload);
+  it('delivered()', () => {
+    events.emit('delivered', fakeOrder);
     expect(console.log).toHaveBeenCalled();
   });
 
